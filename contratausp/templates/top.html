@@ -1,7 +1,13 @@
 <div id="top">
 	<div id="topWrapper">
-		<h1>Contrata USP</h1>
+		<h1>
+			<a href="{% url home %}">
+				Contrata USP
+			</a>
+		</h1>
 		{% if user.is_authenticated %}
+			Olá, <strong>{{ user.username }}</strong>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="{% url accounts:logout %}">Sair</a>
 		{% else %}
 			<a href="{% url accounts:login %}">Entrar</a>
