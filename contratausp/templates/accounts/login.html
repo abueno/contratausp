@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<title>ContrataUSP - Login</title>
+{% endblock %}
+
+{% block body %}
+	<h1>Login</h1>
+	
+	<form action="{% url accounts:login %}" method="POST">
+		{% csrf_token %}
+		
+		<input name="username" type="text" placeholder="Usuário" />
+		{{ form.username.errors }}
+		<br /><br />
+		<input name="password" type="password" placeholder="Senha" />
+		{{ form.password.errors }}
+		<br /><br />
+		{{ form.non_field_errors }}
+		<br />
+		<button type="submit">Entrar</button>
+	</form>
+{% endblock %}
