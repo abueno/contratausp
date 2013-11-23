@@ -57,13 +57,26 @@ button:hover, input[type="submit"]:hover {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cede', endColorstr='#0194bc',GradientType=0 ); /* IE6-9 */
 }
 #top {
-	height: 100px;
+	height: 50px;
 	background: #ff0000;
 	margin-bottom: 30px;
 }
 #topWrapper {
 	width: 1000px;
 	margin: 0 auto;
+	position: relative;
+}
+#topWrapper #logo {
+	width: 200px;
+	position: absolute;
+	left: 0;
+	top: 10px;
+}
+#topWrapper #userOptions {
+	width: 200px;
+	position: absolute;
+	right: 0;
+	top: 10px;
 }
 #wrapper {
 	width: 1000px;
