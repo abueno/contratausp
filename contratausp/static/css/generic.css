@@ -20,11 +20,11 @@ h1 {
 	padding: 10px 0 20px 0;
 }
 input, textarea {
-	padding: 5px 10px;
+	padding: 8px 12px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	border: 1px solid #aaa;
-	background: #f0f0f0;
+	border: 1px solid #0f94ab;
+	background: #fff;
 }
 button, input[type="submit"] {
 	padding: 5px 10px;
@@ -58,7 +58,7 @@ button:hover, input[type="submit"]:hover {
 }
 #top {
 	height: 50px;
-	background: #ff0000;
+	background: #fcb421;
 	margin-bottom: 30px;
 }
 #topWrapper {
@@ -67,10 +67,12 @@ button:hover, input[type="submit"]:hover {
 	position: relative;
 }
 #topWrapper #logo {
-	width: 200px;
+	width: 256px;
+	height: 50px;
 	position: absolute;
 	left: 0;
-	top: 10px;
+	top: 0;
+	background: url('../logo.png');
 }
 #topWrapper #userOptions {
 	width: 200px;

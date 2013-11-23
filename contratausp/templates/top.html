@@ -1,8 +1,7 @@
 <div id="top">
 	<div id="topWrapper">
-		<a id="logo" href="{% url home %}">
-			Contrata USP
-		</a>
+		<a id="logo" href="{% url home %}"></a>
+		
 		<div id="userOptions">
 			{% if user.is_authenticated %}
 				Olá, <strong>{{ user.username }}</strong>
