@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:fb="http://ogp.me/ns/fb#" itemscope itemtype="http://schema.org/LocalBusiness">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="dns-prefetch" href="//ajax.googleapis.com">
+	<link rel="dns-prefetch" href="//apis.google.com">
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	
+	<link href="//fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <link rel="StyleSheet" href="{{ STATIC_URL }}css/generic.css" type="text/css"></link>
+    
+    <link rel="shortcut icon" href="{{ IMAGES_URL }}favicon.ico" type="image/x-icon"></link>
+    
+    <!-- JAVASCRIPT - IMPORTS -->
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js' type='text/javascript'></script>
+    <script src='//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js' type='text/javascript'></script>
+    
+    <script src='{{ STATIC_URL }}js/generic.js' type='text/javascript'></script>
+
+    {% block header %}       
+        <title>ContrataUSP</title>
+    {% endblock %}
+</head>
+<body>
+	{% block content %}        
+	    {% block topBar %}
+	    	{% include "top.html" %}
+	    {% endblock %}
+	    
+		{% block fullWidthBody %}
+			<div id="wrapper">
+				{% block fullBody %}
+					<div id="contentWrapper">
+						{% block bodyWrapper %}
+							<div class="content">
+								{% block body %}{% endblock %}
+							</div>
+						{% endblock %}
+					</div>
+					
+					{% block sidebar %}
+						{% include "sidebar.html" %}
+					{% endblock %}
+				{% endblock %}
+			</div>
+		{% endblock %}
+	
+		{% block bottomBar %}{% endblock %}
+	{% endblock %}
+        
+	{% block scripts %}{% endblock %}
+</body>
+</html>
