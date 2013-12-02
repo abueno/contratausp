@@ -1,0 +1,17 @@
+{% extends 'accounts/profile.html' %}
+
+{% block header %}
+	<title>{{ user.nome }} - ContrataUSP</title>
+{% endblock %}
+
+{% block profile %}
+	<h1>{{ user.nome }}</h1>
+	
+	Login: <strong>{{ user.login }}</strong>
+	<br />
+	E-mail: <strong>{{ user.e_mail }}</strong>
+	<br />
+	Já estagiou: <strong>{% if user.aluno.ja_estagiou %}Sim{% else %}Não{% endif %}</strong>
+	<br />
+	Data de Nascimento: <strong>{{ user.aluno.data_nascimento }}</strong>
+{% endblock %}

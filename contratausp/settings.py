@@ -112,6 +112,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'accounts',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -156,3 +157,11 @@ LOGGING = {
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = (
+    'accounts.backends.BaseUserModelBackend',
+    'accounts.backends.UsernameModelBackend',
+    'accounts.backends.EmailModelBackend',
+)
+
+CUSTOM_USER_MODEL = 'accounts.BaseUser'

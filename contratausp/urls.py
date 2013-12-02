@@ -5,7 +5,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'contratausp.views.home', name='home'),
-    url(r'^contas/', include('accounts.urls', 'accounts')),
+    url(r'^usuarios/', include('accounts.urls', 'accounts')),
     
     # url(r'^contratausp/', include('contratausp.foo.urls')),
 

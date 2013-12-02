@@ -4,7 +4,14 @@
 		
 		<div id="userOptions">
 			{% if user.is_authenticated %}
-				Olá, <strong>{{ user.username }}</strong>
+				Olá,
+				{% with user.get_type as user_type %}
+					{% if user_type == 'aluno' %} 
+						<a href="{% url accounts:profile_student user.login %}">{{ user.nome }}</a>
+					{% elif user_type == 'empregador' %}
+						<a href="{% url accounts:profile_company user.login %}">{{ user.nome }}</a>
+					{% endif %}
+				{% endwith %}
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="{% url accounts:logout %}">Sair</a>
 			{% else %}

@@ -1,0 +1,13 @@
+{% extends 'accounts/profile.html' %}
+
+{% block header %}
+	<title>{{ user.nome }} - ContrataUSP</title>
+{% endblock %}
+
+{% block profile %}
+	<h1>{{ user.nome }}</h1>
+	
+	Login: <strong>{{ user.login }}</strong>
+	<br />
+	E-mail: <strong>{{ user.e_mail }}</strong>
+{% endblock %}
