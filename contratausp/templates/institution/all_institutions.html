@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<title>ContrataUSP - Faculdades</title>
+{% endblock %}
+
+{% block body %}
+	{% for institution in institutions %}
+		<a href="{% url institution:institution institution.id %}">{{ institution.nome }} ({{ institution.sigla }})</a>
+		<br />
+	{% endfor %}
+{% endblock %}

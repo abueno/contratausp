@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<title>ContrataUSP - Cadastro</title>
+{% endblock %}
+
+{% block body %}
+	<h1>Cadastro</h1>
+	 
+	<p>
+		Escolha o tipo de usuário:
+	</p>
+	<br />
+	<a href="{% url accounts:registration_student %}">Aluno</a>
+	<br /><br />
+	<a href="{% url accounts:registration_company_fisico %}">Empregador (Pessoa Física)</a>
+	<br /><br />
+	<a href="{% url accounts:registration_company_juridico %}">Empregador (Pessoa Jurídica)</a>
+{% endblock %}

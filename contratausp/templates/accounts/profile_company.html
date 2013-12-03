@@ -10,4 +10,25 @@
 	Login: <strong>{{ user.login }}</strong>
 	<br />
 	E-mail: <strong>{{ user.e_mail }}</strong>
+	<br />
+	Número de referências positivas: <strong>{{ user.empregador.num_referencias_positivas }}</strong>
+	<br />
+	Número de referências negativas: <strong>{{ user.empregador.num_referencias_negativas }}</strong>
+	{% if user.empregador.get_type == 'juridico' %}
+		<br />
+		CNPJ: <strong>{{ user.empregador.juridico.cnpj }}</strong>
+		<br />
+		Número de funcionários: <strong>{{ user.empregador.juridico.numero_funcionarios }}</strong>
+	{% endif %}
+	{% if user.empregador.endereco %}
+		<br /><br />
+		<h2>Endereço</h2>
+		Logradouro: <strong>{{ user.empregador.endereco.logradouro }}</strong>
+		<br />
+		Bairro: <strong>{{ user.empregador.endereco.bairro }}</strong>
+		<br />
+		Cidade: <strong>{{ user.empregador.endereco.cidade }}</strong>
+		<br />
+		CEP: <strong>{{ user.empregador.endereco.cep }}</strong>
+	{% endif %}
 {% endblock %}

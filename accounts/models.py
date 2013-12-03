@@ -2,12 +2,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import permalink
+from institution.models import Faculdade, Curso_faculdade
+from django.core.urlresolvers import reverse
 
 class Tipo_permissao(models.Model):
     nome = models.CharField(max_length=100, verbose_name=u'Nome')
 
     def __unicode__(self):
-        return self.name
+        return self.nome
 
     class Meta:
         verbose_name = u"Tipo de permissão"
@@ -26,7 +28,10 @@ class BaseUser(User):
 
     @permalink
     def get_absolute_url(self):
-        return ('accounts.views.profile', (self.username,))
+        if self.get_type() == 'aluno':
+            return ('accounts:profile_student', (self.login,))
+        elif self.get_type() == 'empregador':
+            return ('accounts:profile_company', (self.login,))
     
     def get_type(self):
         try:
@@ -48,6 +53,16 @@ class BaseUser(User):
     class Meta:
         verbose_name_plural = "Usuarios"
         ordering = ['username']
+
+class Secretario(BaseUser):
+    id_secretario = models.OneToOneField(BaseUser, parent_link=True, related_name='secretario', primary_key=True)
+    faculdade = models.ForeignKey(Faculdade, related_name='secretario_percente_a_faculdade')
+    
+    def __unicode__(self):
+        return self.nome
+    
+    class Meta:
+        verbose_name_plural = u"Secretários"
         
 class Aluno(BaseUser):
     id_aluno = models.OneToOneField(BaseUser, parent_link=True, related_name='aluno', primary_key=True)
@@ -61,14 +76,72 @@ class Aluno(BaseUser):
     class Meta:
         verbose_name_plural = "Alunos"
         
+class Aluno_curso(models.Model):
+    aluno = models.ForeignKey(Aluno, related_name='aluno_tem_curso')
+    curso = models.ForeignKey(Curso_faculdade, related_name='aluno_tem_curso')
+    situacao = models.CharField(max_length=100, verbose_name=u'Situação')
+    ano_ingresso = models.IntegerField()
+
+    def __unicode__(self):
+        return self.aluno.nome + ' cursou ' + self.curso.nome
+
+    class Meta:
+        verbose_name = u"Aluno tem curso"
+        verbose_name_plural = u"Aluno tem cursos"
+        
 class Empregador(BaseUser):
     id_empregador = models.OneToOneField(BaseUser, parent_link=True, related_name='empregador', primary_key=True)
     ja_foi_aceito_pelo_secretario = models.BooleanField(default=False, verbose_name=u"Já foi aceito pelo secretário", help_text=u'Informa se o empregador já foi aceito pelo secretário')
     num_referencias_positivas = models.IntegerField(default=0, verbose_name=u"Número de referências positivas")
     num_referencias_negativas = models.IntegerField(default=0, verbose_name=u"Número de referências negativas")
 
+    def get_type(self):
+        try:
+            if self.fisico:
+                return 'fisico'
+        except:
+            if self.juridico:
+                return 'juridico'
+            
+        return 'nenhum'
+    
     def __unicode__(self):
         return self.nome
     
     class Meta:
         verbose_name_plural = "Empregadores"
+        
+class Fisico(Empregador):
+    id_empregador_fisico = models.OneToOneField(Empregador, parent_link=True, related_name='fisico', primary_key=True)
+    cpf = models.CharField(blank=False, null=False, verbose_name="CPF", max_length=12)
+    
+    def __unicode__(self):
+        return self.nome
+    
+    class Meta:
+        verbose_name_plural = "Empregadores Físicos"
+        
+class Juridico(Empregador):
+    id_empregador_juridico = models.OneToOneField(Empregador, parent_link=True, related_name='juridico', primary_key=True)
+    cnpj = models.CharField(blank=False, null=False, verbose_name="CNPJ", max_length=14)
+    numero_funcionarios = models.IntegerField(default=0, verbose_name=u"Número de funcionarios")
+
+    def __unicode__(self):
+        return self.nome
+    
+    class Meta:
+        verbose_name_plural = "Empregadores Juridicos"
+        
+class Endereco(models.Model):
+    logradouro = models.CharField(verbose_name=u'Logradouro', max_length=100)
+    bairro = models.CharField(verbose_name=u'Bairro', max_length=100)
+    cidade = models.CharField(verbose_name=u'Cidade', max_length=100)
+    cep = models.CharField(verbose_name=u'CEP', max_length=9)
+    empregador = models.OneToOneField(Empregador, related_name='endereco')
+
+    def __unicode__(self):
+        return self.logradouro
+
+    class Meta:
+        verbose_name = "Endereço"
+        verbose_name_plural = "Endereços"

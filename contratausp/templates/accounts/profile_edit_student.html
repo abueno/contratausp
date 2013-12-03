@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<title>ContrataUSP - Edição de Perfil</title>
+{% endblock %}
+
+{% block body %}
+	<h1>Edição de Perfil</h1>
+	 
+	<form action="{% url accounts:profile_edit_student %}" method="POST">
+		{% csrf_token %}
+		{% for field in form %}
+	        <div class="fieldWrapper">
+	            {{ field.label_tag }}
+	            {{ field }}
+	            {{ field.errors }}
+	        </div>
+	    {% endfor %}
+		<br /><br />
+		<button type="submit">Salvar</button>
+	</form>
+{% endblock %}

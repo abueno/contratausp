@@ -6,6 +6,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'contratausp.views.home', name='home'),
     url(r'^usuarios/', include('accounts.urls', 'accounts')),
+    url(r'^faculdades/', include('institution.urls', 'institution')),
     
     # url(r'^contratausp/', include('contratausp.foo.urls')),
 

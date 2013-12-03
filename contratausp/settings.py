@@ -1,5 +1,6 @@
 # Django settings for contratausp project.
 from os.path import join, abspath, dirname, exists
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -111,8 +112,15 @@ TEMPLATE_DIRS = (
     join(dirname(abspath(__file__)), 'templates'),
 )
 
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+    'contratausp.utils.context',
+)
+
 INSTALLED_APPS = (
     'accounts',
+    'institution',
+    'internship',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

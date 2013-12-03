@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<title>ContrataUSP - {{ institution.nome }} ({{ institution.sigla }})</title>
+{% endblock %}
+
+{% block body %}
+	<h1>{{ institution.nome }} ({{ institution.sigla }})</h1>
+	
+	<h2>Cursos</h2>
+	<br />
+	{% for curso in institution.faculdade_possui_cursos.all %}
+		{{ curso.nome }} ({{ curso.sigla }})
+		<br />
+		Duração: <strong>{{ curso.duracao }} semestres</strong>
+		<br />
+		Período: <strong>{{ curso.periodo }}</strong>
+		<br /><br /><br />
+	{% endfor %}
+{% endblock %}
