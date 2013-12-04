@@ -21,3 +21,7 @@ class Estagio(models.Model):
     @permalink
     def get_absolute_url(self):
         return ('internship:internship', (self.id,))
+
+class Aluno_quer_estagio(models.Model):
+    aluno = models.ForeignKey(Aluno, related_name="aluno_quer_estagio")
+    estagio = models.ForeignKey(Estagio, related_name="aluno_quer_estagio")

@@ -42,4 +42,7 @@
 	<br />
 	CEP: <strong>{{ estagio.endereco_empresa.cep }}</strong>
 	<br /><br />
+	{% if aluno_pode_desejar %}
+		<a href="{% url internship:wish_internship estagio.pk %}">Desejo uma vaga nesse estágio</a>
+	{% endif %}
 {% endblock %}
