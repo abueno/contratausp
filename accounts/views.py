@@ -2,7 +2,7 @@
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth.views import login
 from django.template.context import RequestContext
-from accounts.models import BaseUser, Tipo_permissao
+from accounts.models import BaseUser, Tipo_permissao, Empregador
 from accounts.forms import AlunoForm, AlunoEditForm, EmpregadorFisicoForm,\
     EmpregadorJuridicoForm, EmpregadorFisicoEditForm, EmpregadorJuridicoEditForm,\
     CursoAlunoForm
@@ -87,6 +87,10 @@ def registration_company_juridico(request):
         form = EmpregadorJuridicoForm()
     
     return render_to_response('accounts/registration_company_juridico.html', {'form': form}, RequestContext(request))
+
+def all_companies(request):
+    companies = Empregador.objects.all()
+    return render_to_response('accounts/all_companies.html', {'companies': companies}, RequestContext(request))
 
 def profile_student(request, login):
     try:

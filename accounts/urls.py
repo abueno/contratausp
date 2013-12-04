@@ -4,6 +4,9 @@ from accounts.forms import CustomAuthenticationForm
 
 urlpatterns = patterns('accounts.views',
     url(r'^login/$', 'custom_login', {'authentication_form': CustomAuthenticationForm, 'template_name': 'accounts/login.html'}, name='login'),
+
+    url(r'^empresas/$', 'all_companies', name='all_companies'),
+        
     url(r'^alunos/(?P<login>[\w\.\-]+)$', 'profile_student', name='profile_student'),
     url(r'^empresas/(?P<login>[\w\.\-]+)$', 'profile_company', name='profile_company'),
     
