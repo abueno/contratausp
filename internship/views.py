@@ -18,7 +18,8 @@ def add_internship(request):
             estagio = form.save()
             return redirect(estagio.get_absolute_url() )
     else:
-        form = InternshipForm(initial={'endereco': request.user.empregador.empresa_tem_endereco.all() })
+        form = InternshipForm()
+        form.fields['endereco_empresa'].queryset = request.user.empregador.empresa_tem_endereco.all()
     
     return render_to_response('internship/add_internship.html', {'form': form}, RequestContext(request))
 
