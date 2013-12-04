@@ -21,6 +21,9 @@ urlpatterns = patterns('accounts.views',
     url(r'^empresas/juridico/editar/$', 'profile_edit_company_juridico', name='profile_edit_company_juridico'),
     
     url(r'^alunos/adicionar-curso/$', 'add_course_student', name='add_course_student'),
+    url(r'^alunos/desejar-empregador/(?P<login>[\w\.\-]+)$', 'wish_company', name='wish_company'),
+    
+    url(r'^empresas/adicionar-endereco/$', 'add_address_company', name='add_address_company'),
     
 ) + patterns('django.contrib.auth.views',
     # --- Renaming of Django urls ---

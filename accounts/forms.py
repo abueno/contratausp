@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from accounts.models import Aluno, Fisico, Juridico, Aluno_curso
+from accounts.models import Aluno, Fisico, Juridico, Aluno_curso, Endereco
 
 class CustomAuthenticationForm(AuthenticationForm):
     # Increased max_length of username to acommodate e-mail addresses
@@ -50,4 +51,11 @@ class CursoAlunoForm(forms.ModelForm):
         model = Aluno_curso
         widgets = {
             'aluno': forms.HiddenInput()
+        }
+        
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Endereco
+        widgets = {
+            'empregador': forms.HiddenInput()
         }

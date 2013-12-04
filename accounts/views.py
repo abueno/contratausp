@@ -2,10 +2,11 @@
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth.views import login
 from django.template.context import RequestContext
-from accounts.models import BaseUser, Tipo_permissao, Empregador
+from accounts.models import BaseUser, Tipo_permissao, Empregador,\
+    Aluno_quer_empresa
 from accounts.forms import AlunoForm, AlunoEditForm, EmpregadorFisicoForm,\
     EmpregadorJuridicoForm, EmpregadorFisicoEditForm, EmpregadorJuridicoEditForm,\
-    CursoAlunoForm
+    CursoAlunoForm, AddressForm
 from django.contrib.auth.decorators import login_required
 
 def custom_login(request, **kwargs):
@@ -89,8 +90,8 @@ def registration_company_juridico(request):
     return render_to_response('accounts/registration_company_juridico.html', {'form': form}, RequestContext(request))
 
 def all_companies(request):
-    companies = Empregador.objects.all()
-    return render_to_response('accounts/all_companies.html', {'companies': companies}, RequestContext(request))
+    empregadores = Empregador.objects.all()
+    return render_to_response('accounts/all_companies.html', {'empregadores': empregadores}, RequestContext(request))
 
 def profile_student(request, login):
     try:
@@ -108,7 +109,13 @@ def profile_company(request, login):
             return redirect('home')
     except:
         return redirect('home')
-    return render_to_response('accounts/profile_company.html', {'user': user}, RequestContext(request))
+    
+    aluno_pode_querer = False
+    if request.user.is_authenticated() and not request.user == user and request.user.get_type() == 'aluno':
+        if not request.user.aluno.ja_quis_empresa(user.empregador):
+            aluno_pode_querer = True
+            
+    return render_to_response('accounts/profile_company.html', {'user': user, 'aluno_pode_querer': aluno_pode_querer}, RequestContext(request))
 
 @login_required
 def profile_edit_student(request):
@@ -157,3 +164,26 @@ def add_course_student(request):
         form = CursoAlunoForm(initial={'aluno': request.user.aluno})
     
     return render_to_response('accounts/add_course_student.html', {'form': form}, RequestContext(request))
+
+@login_required
+def wish_company(request, login):
+    try:
+        user = BaseUser.objects.get(login=login)
+    except:
+        return redirect('home')
+    
+    obj = Aluno_quer_empresa.objects.get_or_create(aluno=request.user.aluno, empregador=user.empregador)
+    
+    return redirect(user.get_absolute_url() )
+
+@login_required
+def add_address_company(request):
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            endereco = form.save()
+            return redirect(request.user.get_absolute_url() )
+    else:
+        form = AddressForm(initial={'empregador': request.user.empregador})
+    
+    return render_to_response('accounts/add_address_company.html', {'form': form}, RequestContext(request))

@@ -20,15 +20,29 @@
 		<br />
 		Número de funcionários: <strong>{{ user.empregador.juridico.numero_funcionarios }}</strong>
 	{% endif %}
-	{% if user.empregador.endereco %}
+	{% if user.empregador.empresa_tem_endereco.count %}
 		<br /><br />
-		<h2>Endereço</h2>
-		Logradouro: <strong>{{ user.empregador.endereco.logradouro }}</strong>
-		<br />
-		Bairro: <strong>{{ user.empregador.endereco.bairro }}</strong>
-		<br />
-		Cidade: <strong>{{ user.empregador.endereco.cidade }}</strong>
-		<br />
-		CEP: <strong>{{ user.empregador.endereco.cep }}</strong>
+		<h2>Endereços</h2>
+		{% for endereco in user.empregador.empresa_tem_endereco.all %}
+			Logradouro: <strong>{{ endereco.logradouro }}</strong>
+			<br />
+			Bairro: <strong>{{ endereco.bairro }}</strong>
+			<br />
+			Cidade: <strong>{{ endereco.cidade }}</strong>
+			<br />
+			CEP: <strong>{{ endereco.cep }}</strong>
+			<br /><br />
+		{% endfor %}
+	{% endif %}
+	{% if aluno_pode_querer %}
+		<br /><br />
+		<a href="{% url accounts:wish_company user.empregador %}">Desejo trabalhar com {{ user.nome }}</a>
+	{% endif %}
+	
+	{% if request.user == user %}
+		<br /><br />
+		<a href="{% url accounts:add_address_company %}">Adicionar endereço</a>
+		<br /><br />
+		<a href="{% url internship:add_internship %}">Adicionar Oferta de Estágio</a>
 	{% endif %}
 {% endblock %}

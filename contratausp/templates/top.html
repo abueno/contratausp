@@ -3,13 +3,13 @@
 		<a id="logo" href="{% url home %}"></a>
 		
 		<div id="userOptions">
-			{% if user.is_authenticated %}
+			{% if request.user.is_authenticated %}
 				Olá,
-				{% with user.get_type as user_type %}
+				{% with request.user.get_type as user_type %}
 					{% if user_type == 'aluno' %} 
-						<a href="{% url accounts:profile_student user.login %}">{{ user.nome }}</a>
+						<a href="{% url accounts:profile_student request.user.login %}">{{ request.user.nome }}</a>
 					{% elif user_type == 'empregador' %}
-						<a href="{% url accounts:profile_company user.login %}">{{ user.nome }}</a>
+						<a href="{% url accounts:profile_company request.user.login %}">{{ request.user.nome }}</a>
 					{% endif %}
 				{% endwith %}
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

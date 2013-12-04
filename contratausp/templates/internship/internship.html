@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<title>ContrataUSP - Estágio</title>
+{% endblock %}
+
+{% block body %}
+	<h1>{{ estagio.nome }}</h1>
+	
+	Empregador: 
+	<a href="{% url accounts:profile_company estagio.endereco_empresa.empregador.login %}">
+		{{ estagio.endereco_empresa.empregador.nome }}
+	</a>
+	<br />
+	Carga Horária: {{ estagio.carga_horaria }}
+	<br />
+	Objetivo: {{ estagio.objetivo }}
+	<br />
+	Duracao: {{ estagio.duracao }}
+	<br />
+	Salário: {{ estagio.salario }}
+	<br />
+	Data de Cadastro: {{ estadio.data_cadastro }}
+	<br />
+	Vale Transporte: {{ estagio.vale_transporte }}
+	<br />
+	Vale Refeição: {{ estagio.vale_refeicao }}
+	<br />
+	Outros: {{ estagio.outros }}
+	<br />
+	Data de Início: {{ estagio.data_inicio }}
+	<br />
+	Data de Término: {{ estagio.data_fim }}
+	<br /><br />
+	<h2>Endereço</h2>
+	<br />
+	Logradouro: <strong>{{ estagio.endereco_empresa.logradouro }}</strong>
+	<br />
+	Bairro: <strong>{{ estagio.endereco_empresa.bairro }}</strong>
+	<br />
+	Cidade: <strong>{{ estagio.endereco_empresa.cidade }}</strong>
+	<br />
+	CEP: <strong>{{ estagio.endereco_empresa.cep }}</strong>
+	<br /><br />
+{% endblock %}

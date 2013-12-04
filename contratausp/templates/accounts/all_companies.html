@@ -5,4 +5,8 @@
 {% endblock %}
 
 {% block body %}
+	{% for empregador in empregadores %}
+		<a href="{{ empregador.id_empregador.get_absolute_url }}">{{ empregador.nome }}</a>
+		<br />
+	{% endfor %}
 {% endblock %}

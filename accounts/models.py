@@ -70,6 +70,11 @@ class Aluno(BaseUser):
     ja_estagiou = models.BooleanField(default=False, verbose_name=u"Já Estagiou", help_text=u'Informa se o usuario já estagiou')
     data_nascimento = models.DateField(blank=False, null=False, verbose_name="Data de Nascimento")
     
+    def ja_quis_empresa(self, empregador):
+        if Aluno_quer_empresa.objects.filter(aluno=self, empregador=empregador).exists():
+            return True
+        return False
+    
     def __unicode__(self):
         return self.nome
     
@@ -111,6 +116,17 @@ class Empregador(BaseUser):
     class Meta:
         verbose_name_plural = "Empregadores"
         
+class Aluno_quer_empresa(models.Model):
+    aluno = models.ForeignKey(Aluno, related_name='aluno_quer_empresa')
+    empregador = models.ForeignKey(Empregador, related_name='aluno_quer_empresa')
+
+    def __unicode__(self):
+        return self.aluno.nome + ' quer trabalhar com ' + self.empregador.nome
+
+    class Meta:
+        verbose_name = u"Aluno quer empresa"
+        verbose_name_plural = u"Alunos querem empresas"
+        
 class Fisico(Empregador):
     id_empregador_fisico = models.OneToOneField(Empregador, parent_link=True, related_name='fisico', primary_key=True)
     cpf = models.CharField(blank=False, null=False, verbose_name="CPF", max_length=12)
@@ -137,7 +153,7 @@ class Endereco(models.Model):
     bairro = models.CharField(verbose_name=u'Bairro', max_length=100)
     cidade = models.CharField(verbose_name=u'Cidade', max_length=100)
     cep = models.CharField(verbose_name=u'CEP', max_length=9)
-    empregador = models.OneToOneField(Empregador, related_name='endereco')
+    empregador = models.ForeignKey(Empregador, related_name='empresa_tem_endereco')
 
     def __unicode__(self):
         return self.logradouro

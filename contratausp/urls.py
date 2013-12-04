@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^$', 'contratausp.views.home', name='home'),
     url(r'^usuarios/', include('accounts.urls', 'accounts')),
     url(r'^faculdades/', include('institution.urls', 'institution')),
+    url(r'^estagios/', include('internship.urls', 'internship')),
     
     # url(r'^contratausp/', include('contratausp.foo.urls')),
 
