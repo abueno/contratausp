@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template.context import RequestContext
 
 def all_institutions(request):
-    institutions = Faculdade.objects.all()
+    institutions = Faculdade.objects.raw('SELECT * FROM institution_faculdade')
     
     return render_to_response('institution/all_institutions.html', {'institutions': institutions}, RequestContext(request))
 

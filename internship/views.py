@@ -4,9 +4,10 @@ from django.shortcuts import redirect, render_to_response
 from django.template.context import RequestContext
 from internship.forms import InternshipForm
 from internship.models import Estagio, Aluno_quer_estagio
+from django.db import connection, transaction
 
 def all_internships(request):
-    estagios = Estagio.objects.all()
+    estagios = Estagio.objects.raw('SELECT e.*, end.empregador_id FROM internship_estagio e LEFT OUTER JOIN accounts_endereco end ON e.endereco_empresa_id = end.id')
     return render_to_response('internship/all_internships.html', {'estagios': estagios}, RequestContext(request))
 
 @login_required
@@ -28,7 +29,9 @@ def wish_internship(request, internship_id):
     except:
         return redirect('home') 
     
-    obj = Aluno_quer_estagio.objects.get_or_create(aluno=request.user.aluno, estagio=estagio)
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO internship_aluno_quer_estagio (aluno_id, estagio_id) VALUES (%s, %s)", [request.user.aluno.id, estagio.id])
+    transaction.commit_unless_managed()
     
     return redirect(estagio.get_absolute_url() )
 
@@ -37,7 +40,7 @@ def wished_internships(request):
     if not request.user.is_authenticated() or not request.user.get_type() == 'aluno':
         return redirect('home')
     
-    interesses = Aluno_quer_estagio.objects.filter(aluno=request.user.aluno)
+    interesses = Aluno_quer_estagio.objects.raw('SELECT * from internship_aluno_quer_estagio where aluno_id = %s', [request.user.aluno.id])
     
     return render_to_response('internship/wished_internships.html', {'interesses': interesses}, RequestContext(request))
 

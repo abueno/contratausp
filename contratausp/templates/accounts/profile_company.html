@@ -37,6 +37,7 @@
 	{% if aluno_pode_querer %}
 		<br /><br />
 		<a href="{% url accounts:wish_company user.empregador %}">Desejo trabalhar com {{ user.nome }}</a>
+		<br /><br />
 	{% endif %}
 	{% if estagios %}
 		<h2>Estágios nesta empresa</h2>

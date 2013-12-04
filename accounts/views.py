@@ -9,6 +9,7 @@ from accounts.forms import AlunoForm, AlunoEditForm, EmpregadorFisicoForm,\
     CursoAlunoForm, AddressForm
 from django.contrib.auth.decorators import login_required
 from internship.models import Estagio
+from django.db import connection, transaction
 
 def custom_login(request, **kwargs):
     if request.user.is_authenticated():
@@ -91,7 +92,7 @@ def registration_company_juridico(request):
     return render_to_response('accounts/registration_company_juridico.html', {'form': form}, RequestContext(request))
 
 def all_companies(request):
-    empregadores = Empregador.objects.all()
+    empregadores = Empregador.objects.raw('SELECT * FROM accounts_empregador')
     return render_to_response('accounts/all_companies.html', {'empregadores': empregadores}, RequestContext(request))
 
 def profile_student(request, login):
@@ -175,7 +176,9 @@ def wish_company(request, login):
     except:
         return redirect('home')
     
-    obj = Aluno_quer_empresa.objects.get_or_create(aluno=request.user.aluno, empregador=user.empregador)
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO accounts_aluno_quer_empresa (aluno_id, empregador_id) VALUES (%s, %s)", [request.user.aluno.id, user.empregador.id])
+    transaction.commit_unless_managed()
     
     return redirect(user.get_absolute_url() )
 
@@ -184,7 +187,7 @@ def wished_companies(request):
     if not request.user.is_authenticated() or not request.user.get_type() == 'aluno':
         return redirect('home')
     
-    interesses = Aluno_quer_empresa.objects.filter(aluno=request.user.aluno)
+    interesses = Aluno_quer_empresa.objects.raw('SELECT * from accounts_aluno_quer_empresa where aluno_id = %s', [request.user.aluno.id])
     
     return render_to_response('accounts/wished_companies.html', {'interesses': interesses}, RequestContext(request))
 
