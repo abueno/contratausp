@@ -17,7 +17,6 @@ def add_internship(request):
     
     return render_to_response('internship/add_internship.html', {'form': form}, RequestContext(request))
 
-@login_required
 def internship(request, internship_id):
     try:
         estagio = Estagio.objects.get(id=internship_id)
@@ -25,3 +24,7 @@ def internship(request, internship_id):
         return redirect('home')
     
     return render_to_response('internship/internship.html', {'estagio': estagio}, RequestContext(request))
+
+def all_internships(request):
+    estagios = Estagio.objects.all()
+    return render_to_response('internship/all_internships.html', {'estagios': estagios}, RequestContext(request))

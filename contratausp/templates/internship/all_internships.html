@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<title>ContrataUSP - Estágios</title>
+{% endblock %}
+
+{% block body %}
+	{% for estagio in estagios %}
+		<a href="{{ estagio.get_absolute_url }}">{{ estagio.nome }}</a>
+		<br />
+		Empresa: <a href="{{ estagio.endereco_empresa.empregador.get_absolute_url }}">{{ estagio.endereco_empresa.empregador.nome }}</a>
+		<br /><br />
+	{% endfor %}
+{% endblock %}
