@@ -1,3 +1,39 @@
 <div id="sidebar">
-	<h1>Sidebar</h1>
+	{% if request.user.is_authenticated %}
+		{% with request.user.get_type as usertype %}
+			{% if usertype == 'aluno' %}
+				<h1>Meu Menu</h1>
+				
+				<a href="{{ request.user.get_absolute_url }}">Meu Perfil</a>
+				<br />
+				<a href="{% url accounts:profile_edit_student %}">Editar meu perfil</a>
+				<br />
+				<a href="{% url accounts:add_course_student %}">Adicionar curso</a>
+				<br />
+				<a href="{% url internship:wished_internships %}">Estágios de meu interesse</a>
+				<br />
+				<a href="{% url accounts:wished_companies %}">Empresas de meu interesse</a>
+			{% elif usertype == 'empregador' %}
+				<h1>Meu Menu</h1>
+
+				<a href="{{ request.user.get_absolute_url }}">Meu Perfil</a>
+				<br />				
+				{% if request.user.empregador.fisico %}
+					<a href="{% url accounts:profile_edit_company_fisico %}">Editar meu perfil</a>	
+				{% else %}
+					<a href="{% url accounts:profile_edit_company_juridico %}">Editar meu perfil</a>
+				{% endif %}
+				<br />
+				<a href="{% url accounts:add_address_company %}">Adicionar endereço</a>
+				<br />
+				<a href="{% url internship:add_internship %}">Adicionar Oferta de Estágio</a>
+			{% endif %}
+		{% endwith %}
+	{% else %}
+		<a href="{% url institution:all_institutions %}">Ver todas as faculdades</a>
+		<br />
+		<a href="{% url accounts:all_companies %}">Ver todos os empregadores</a>
+		<br />
+		<a href="{% url internship:all_internships %}">Ver todos os estágios</a>
+	{% endif %} 
 </div>

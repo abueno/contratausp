@@ -22,6 +22,7 @@ urlpatterns = patterns('accounts.views',
     
     url(r'^alunos/adicionar-curso/$', 'add_course_student', name='add_course_student'),
     url(r'^alunos/desejar-empregador/(?P<login>[\w\.\-]+)$', 'wish_company', name='wish_company'),
+    url(r'^empresas/interesse/$', 'wished_companies', name='wished_companies'),
     
     url(r'^empresas/adicionar-endereco/$', 'add_address_company', name='add_address_company'),
     

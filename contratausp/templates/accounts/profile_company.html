@@ -38,11 +38,12 @@
 		<br /><br />
 		<a href="{% url accounts:wish_company user.empregador %}">Desejo trabalhar com {{ user.nome }}</a>
 	{% endif %}
-	
-	{% if request.user == user %}
-		<br /><br />
-		<a href="{% url accounts:add_address_company %}">Adicionar endereço</a>
-		<br /><br />
-		<a href="{% url internship:add_internship %}">Adicionar Oferta de Estágio</a>
+	{% if estagios %}
+		<h2>Estágios nesta empresa</h2>
+		<br />
+		{% for estagio in estagios %}
+			<a href="{{ estagio.get_absolute_url }}">{{ estagio.nome }}</a>
+			<br />
+		{% endfor %}
 	{% endif %}
 {% endblock %}

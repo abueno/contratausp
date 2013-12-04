@@ -26,11 +26,20 @@ def wish_internship(request, internship_id):
     try:
         estagio = Estagio.objects.get(id=internship_id)
     except:
-        return redirect('home')
+        return redirect('home') 
     
     obj = Aluno_quer_estagio.objects.get_or_create(aluno=request.user.aluno, estagio=estagio)
     
     return redirect(estagio.get_absolute_url() )
+
+@login_required
+def wished_internships(request):
+    if not request.user.is_authenticated() or not request.user.get_type() == 'aluno':
+        return redirect('home')
+    
+    interesses = Aluno_quer_estagio.objects.filter(aluno=request.user.aluno)
+    
+    return render_to_response('internship/wished_internships.html', {'interesses': interesses}, RequestContext(request))
 
 def internship(request, internship_id):
     try:
@@ -41,5 +50,9 @@ def internship(request, internship_id):
     aluno_pode_desejar = False
     if request.user.is_authenticated() and request.user.get_type() == 'aluno' and not Aluno_quer_estagio.objects.filter(aluno=request.user.aluno, estagio=estagio).exists():
         aluno_pode_desejar = True
+        
+    desejos = None
+    if request.user == estagio.endereco_empresa.empregador.id_empregador:
+        desejos = Aluno_quer_estagio.objects.filter(estagio=estagio)
     
-    return render_to_response('internship/internship.html', {'estagio': estagio, 'aluno_pode_desejar': aluno_pode_desejar}, RequestContext(request))
+    return render_to_response('internship/internship.html', {'estagio': estagio, 'aluno_pode_desejar': aluno_pode_desejar, 'desejos': desejos}, RequestContext(request))

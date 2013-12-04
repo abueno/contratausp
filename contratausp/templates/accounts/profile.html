@@ -7,19 +7,4 @@
 {% block body %}
 	{% block profile %}
 	{% endblock %}
-	
-	{% if request.user.pk == user.pk %}
-		<br /><br />
-		{% if user.get_type == "aluno" %}
-			<a href="{% url accounts:profile_edit_student %}">Editar meu perfil</a>
-			<br /><br />
-			<a href="{% url accounts:add_course_student %}">Adicionar curso</a>
-		{% elif user.get_type == "empregador" %}
-			{% if user.empregador.fisico %}
-				<a href="{% url accounts:profile_edit_company_fisico %}">Editar meu perfil</a>	
-			{% else %}
-				<a href="{% url accounts:profile_edit_company_juridico %}">Editar meu perfil</a>
-			{% endif %}
-		{% endif %}
-	{% endif %}
 {% endblock %}

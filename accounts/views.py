@@ -8,6 +8,7 @@ from accounts.forms import AlunoForm, AlunoEditForm, EmpregadorFisicoForm,\
     EmpregadorJuridicoForm, EmpregadorFisicoEditForm, EmpregadorJuridicoEditForm,\
     CursoAlunoForm, AddressForm
 from django.contrib.auth.decorators import login_required
+from internship.models import Estagio
 
 def custom_login(request, **kwargs):
     if request.user.is_authenticated():
@@ -115,7 +116,9 @@ def profile_company(request, login):
         if not request.user.aluno.ja_quis_empresa(user.empregador):
             aluno_pode_querer = True
             
-    return render_to_response('accounts/profile_company.html', {'user': user, 'aluno_pode_querer': aluno_pode_querer}, RequestContext(request))
+    estagios = Estagio.objects.filter(endereco_empresa__empregador=user.empregador)
+    
+    return render_to_response('accounts/profile_company.html', {'user': user, 'aluno_pode_querer': aluno_pode_querer, 'estagios': estagios}, RequestContext(request))
 
 @login_required
 def profile_edit_student(request):
@@ -175,6 +178,15 @@ def wish_company(request, login):
     obj = Aluno_quer_empresa.objects.get_or_create(aluno=request.user.aluno, empregador=user.empregador)
     
     return redirect(user.get_absolute_url() )
+
+@login_required
+def wished_companies(request):
+    if not request.user.is_authenticated() or not request.user.get_type() == 'aluno':
+        return redirect('home')
+    
+    interesses = Aluno_quer_empresa.objects.filter(aluno=request.user.aluno)
+    
+    return render_to_response('accounts/wished_companies.html', {'interesses': interesses}, RequestContext(request))
 
 @login_required
 def add_address_company(request):

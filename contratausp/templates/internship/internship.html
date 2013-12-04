@@ -41,8 +41,17 @@
 	Cidade: <strong>{{ estagio.endereco_empresa.cidade }}</strong>
 	<br />
 	CEP: <strong>{{ estagio.endereco_empresa.cep }}</strong>
-	<br /><br />
 	{% if aluno_pode_desejar %}
+		<br /><br />
 		<a href="{% url internship:wish_internship estagio.pk %}">Desejo uma vaga nesse estágio</a>
+	{% endif %}
+	{% if desejos %}
+		<br /><br />
+		<h2>Alunos que desejaram este estágio</h2>
+		<br />
+		{% for desejo in desejos %}
+			<a href="{{ desejo.aluno.get_absolute_url }}">{{ desejo.aluno.nome }}</a> desejou este estagio
+			<br />
+		{% endfor %}
 	{% endif %}
 {% endblock %}

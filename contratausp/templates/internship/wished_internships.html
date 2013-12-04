@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<title>ContrataUSP - Estágios de interesse</title>
+{% endblock %}
+
+{% block body %}
+	<h1>Estágios que você demonstrou interesse</h1>
+	{% for interesse in interesses %}
+		<a href="{{ interesse.estagio.get_absolute_url }}">{{ interesse.estagio.nome }}</a>
+		<br />
+		Empresa: <a href="{{ interesse.estagio.endereco_empresa.empregador.get_absolute_url }}">{{ interesse.estagio.endereco_empresa.empregador.nome }}</a>
+		<br /><br />
+	{% endfor %}
+{% endblock %}

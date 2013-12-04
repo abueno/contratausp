@@ -100,6 +100,10 @@ class Empregador(BaseUser):
     num_referencias_positivas = models.IntegerField(default=0, verbose_name=u"Número de referências positivas")
     num_referencias_negativas = models.IntegerField(default=0, verbose_name=u"Número de referências negativas")
 
+    @permalink
+    def get_absolute_url(self):
+        return ('accounts:profile_company', (self.login,))
+        
     def get_type(self):
         try:
             if self.fisico:

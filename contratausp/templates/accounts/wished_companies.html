@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<title>ContrataUSP - Empresas de interesse</title>
+{% endblock %}
+
+{% block body %}
+	<h1>Empresas que você demonstrou interesse</h1>
+	{% for interesse in interesses %}
+		<a href="{{ interesse.empregador.get_absolute_url }}">{{ interesse.empregador.nome }}</a>
+		<br /><br />
+	{% endfor %}
+{% endblock %}
